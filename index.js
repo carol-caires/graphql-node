@@ -1,6 +1,6 @@
-const app = require("express")();
-const expressGraphql = require("express-graphql");
-const { buildSchema } = require("graphql");
+const app = require('express')()
+const expressGraphql = require('express-graphql')
+const { buildSchema } = require('graphql')
 
 const schema = buildSchema(`
   type User {
@@ -16,42 +16,42 @@ const schema = buildSchema(`
   type Mutation {
     createUser(name: String!, repo: String!, age: Int!): User
   }
-`);
+`)
 
 const providers = {
-    users: []
-  };
+  users: []
+}
 
-let id = 0;
+let id = 0
 
 const resolvers = {
-  user({ id }) {
-    return providers.users.find(item => item.id === Number(id));
+  user ({ id }) {
+    return providers.users.find(item => item.id === Number(id))
   },
-  users() {
-    return providers.users;
+  users () {
+    return providers.users
   },
-  createUser({ name, repo, age }) {
+  createUser ({ name, repo, age }) {
     const user = {
       id: id++,
       name,
       repo,
       age
-    };
+    }
 
-    providers.users.push(user);
+    providers.users.push(user)
 
-    return user;
+    return user
   }
-};
+}
 
 app.use(
-  "/graphql",
+  '/graphql',
   expressGraphql({
     schema,
     rootValue: resolvers,
     graphiql: true
   })
-);
+)
 
-app.listen(3000);
+app.listen(3000)
